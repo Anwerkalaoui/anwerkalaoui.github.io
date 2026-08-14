@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anwer Kalaoui — Filmmaker &amp; Videographer</title>
+<meta name="description" content="Anwer Kalaoui — filmmaker and videographer based in Tunis. Photography, editing and directing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0a09;
+    --surface:#111110;
+    --paper:#ece7de;
+    --muted:#8b8781;
+    --faint:#57544e;
+    --line:#232320;
+    --signal:#c8262c;
+    --letterbox: 34px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--signal);color:var(--paper);}
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .serif{font-family:'Instrument Serif',serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ---------- grain ---------- */
+  .grain{
+    position:fixed;inset:0;z-index:60;pointer-events:none;
+    opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- letterbox (signature element) ---------- */
+  .letterbox{
+    position:fixed;left:0;right:0;height:var(--letterbox);
+    background:#000;z-index:50;pointer-events:none;
+  }
+  .letterbox.top{top:0;}
+  .letterbox.bottom{bottom:0;}
+  .frame-corner{
+    position:fixed;z-index:51;font-family:'IBM Plex Mono',monospace;
+    font-size:10px;letter-spacing:.12em;color:var(--muted);
+    pointer-events:none;text-transform:uppercase;
+  }
+  .frame-corner.tl{top:10px;left:14px;}
+  .frame-corner.tr{top:10px;right:14px;text-align:right;}
+  .frame-corner.bl{bottom:10px;left:14px;}
+  .frame-corner.br{bottom:10px;right:14px;text-align:right;}
+  .frame-corner .rec{color:var(--signal);}
+  .frame-corner .dot{
+    display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--signal);margin-right:6px;
+    animation:pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+  main{padding-top:var(--letterbox);padding-bottom:var(--letterbox);}
+
+  /* ---------- nav ---------- */
+  header.nav{
+    position:fixed;top:var(--letterbox);left:0;right:0;z-index:40;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 40px;
+    transition:transform .5s ease, background .4s ease, padding .3s ease;
+  }
+  header.nav.scrolled{
+    padding:14px 40px;
+    background:rgba(10,10,9,.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  header.nav.hide{transform:translateY(-120%);}
+  .wordmark{
+    font-family:'Instrument Serif',serif;font-style:italic;
+    font-size:20px;letter-spacing:.02em;text-decoration:none;
+  }
+  nav.links{display:flex;gap:36px;list-style:none;margin:0;padding:0;}
+  nav.links a{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;text-decoration:none;color:var(--muted);
+    position:relative;padding-bottom:4px;transition:color .3s ease;
+  }
+  nav.links a:hover,nav.links a.active{color:var(--paper);}
+  nav.links a.active::after{
+    content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--signal);
+  }
+  .menu-btn{display:none;background:none;border:none;color:var(--paper);cursor:pointer;padding:6px;}
+  .menu-btn svg{width:22px;height:22px;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;min-height:100vh;display:flex;align-items:flex-end;
+    background:#000;
+  }
+  .hero-media{position:absolute;inset:0;overflow:hidden;}
+  .hero-media img{
+    width:100%;height:100%;object-fit:cover;object-position:60% 30%;
+    filter:saturate(1.05) contrast(1.05);
+    transform:scale(1.08);
+  }
+  .hero-media::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,10,9,.25) 0%,rgba(10,10,9,.15) 35%,rgba(10,10,9,.85) 88%,#0a0a09 100%);
+  }
+  .hero-inner{position:relative;z-index:2;padding:0 40px 90px;width:100%;}
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--paper);opacity:.8;margin:0 0 18px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .hero-eyebrow::before{content:"";width:24px;height:1px;background:var(--signal);}
+  h1.hero-title{
+    font-family:'Instrument Serif',serif;font-weight:400;
+    font-size:clamp(52px,10vw,148px);line-height:.92;margin:0 0 20px;letter-spacing:-.01em;
+  }
+  .hero-sub{
+    max-width:520px;font-size:16px;color:var(--muted);margin:0 0 34px;
+  }
+  .scroll-cue{
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:10px;
+  }
+  .scroll-cue .line{width:1px;height:34px;background:var(--muted);position:relative;overflow:hidden;}
+  .scroll-cue .line::after{
+    content:"";position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--signal);
+    animation:scrolldown 1.8s ease-in-out infinite;
+  }
+  @keyframes scrolldown{0%{top:-100%;}60%{top:100%;}100%{top:100%;}}
+
+  /* ---------- shared layout ---------- */
+  section{padding:150px 40px;max-width:1360px;margin:0 auto;position:relative;}
+  section.tight{padding-top:90px;padding-bottom:90px;}
+  .scene-label{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--signal);display:flex;align-items:center;gap:12px;margin-bottom:22px;
+  }
+  .scene-label .n{color:var(--muted);}
+  h2.title{
+    font-family:'Instrument Serif',serif;font-weight:400;font-style:italic;
+    font-size:clamp(36px,5.4vw,72px);line-height:1;margin:0 0 26px;
+  }
+  .lede{max-width:620px;color:var(--muted);font-size:17px;}
+  .divider{height:1px;background:var(--line);border:none;margin:0;}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:80px;align-items:start;}
+  .about-portrait{position:relative;}
+  .about-portrait img{filter:grayscale(1) contrast(1.08);}
+  .about-portrait .tag{
+    margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);
+    letter-spacing:.1em;text-transform:uppercase;
+  }
+  .about-text p{color:var(--paper);font-size:17px;margin:0 0 22px;}
+  .about-text p:first-of-type::first-letter{
+    font-family:'Instrument Serif',serif;font-size:64px;float:left;line-height:.8;
+    margin:6px 10px 0 0;color:var(--signal);font-style:italic;
+  }
+  blockquote.pull{
+    margin:46px 0 0;padding-top:32px;border-top:1px solid var(--line);
+    font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(22px,2.6vw,30px);
+    line-height:1.35;color:var(--paper);
+  }
+  blockquote.pull cite{display:block;margin-top:16px;font-family:'IBM Plex Mono',monospace;
+    font-style:normal;font-size:11px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;}
+
+  /* ---------- photography intro ---------- */
+  .intro-row{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap;}
+
+  /* series block */
+  .series{padding:100px 40px;max-width:1360px;margin:0 auto;}
+  .series-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:44px;flex-wrap:wrap;}
+  .series-head h3{
+    font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(30px,4vw,52px);margin:0;
+  }
+  .series-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:right;}
+  .series-desc{max-width:560px;color:var(--muted);font-size:15.5px;margin-bottom:44px;}
+
+  .grid{display:grid;gap:14px;}
+  .g4{grid-template-columns:repeat(4,1fr);}
+  .g3{grid-template-columns:repeat(3,1fr);}
+  .g2{grid-template-columns:repeat(2,1fr);}
+  .g6{grid-template-columns:repeat(6,1fr);}
+  .span2{grid-column:span 2;}
+  .span3{grid-column:span 3;}
+  .tall{grid-row:span 2;}
+  figure{margin:0;position:relative;overflow:hidden;background:var(--surface);cursor:zoom-in;}
+  figure img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.16,1,.3,1), filter .5s ease;}
+  figure:hover img{transform:scale(1.045);}
+  figure.ratio-portrait{aspect-ratio:3/4;}
+  figure.ratio-square{aspect-ratio:1/1;}
+  figure.ratio-wide{aspect-ratio:16/10;}
+  figure.ratio-tall{aspect-ratio:3/5;}
+  figure .cap{
+    position:absolute;left:0;right:0;bottom:0;padding:14px 16px;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--muted);
+    background:linear-gradient(180deg,transparent,rgba(0,0,0,.75));
+    opacity:0;transition:opacity .35s ease;text-transform:uppercase;
+  }
+  figure:hover .cap{opacity:1;}
+  figure.text-card{
+    display:flex;align-items:center;justify-content:center;padding:26px;
+    background:#000;border:1px solid var(--line);cursor:default;
+  }
+  figure.text-card p{
+    font-family:'Instrument Serif',serif;font-style:italic;color:var(--paper);
+    font-size:15px;text-align:center;margin:0;line-height:1.5;opacity:.85;
+  }
+
+  /* interstitial quote spreads */
+  .quote-spread{
+    padding:140px 40px;max-width:1360px;margin:0 auto;
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:center;
+  }
+  .quote-spread .qtext{
+    font-family:'Instrument Serif',serif;font-style:italic;
+    font-size:clamp(24px,3vw,36px);line-height:1.3;color:var(--paper);
+  }
+  .quote-spread .qtext cite{
+    display:block;margin-top:24px;font-family:'IBM Plex Mono',monospace;font-style:normal;
+    font-size:11px;letter-spacing:.16em;color:var(--signal);text-transform:uppercase;
+  }
+  .quote-spread figure{aspect-ratio:3/4;}
+
+  .suffer-block{
+    padding:100px 40px;max-width:1360px;margin:0 auto;
+    display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+  }
+  .suffer-block .qtext{
+    font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;
+    font-size:clamp(32px,4.2vw,58px);line-height:1.18;
+  }
+  .suffer-block figure{aspect-ratio:4/5;}
+
+  /* essay full-bleed */
+  .essay-head{padding:0 40px;max-width:1360px;margin:0 auto 30px;}
+  .essay-strip{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;padding:0 40px;max-width:1360px;margin:0 auto;}
+  .essay-strip figure{aspect-ratio:4/3;}
+  .essay-strip figure:first-child{aspect-ratio:4/3.4;}
+
+  /* chaos art */
+  .chaos{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .chaos-gallery{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .chaos-gallery figure{aspect-ratio:1/1;}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;margin-top:8px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--paper);text-decoration:none;padding:14px 22px;border:1px solid var(--faint);
+    transition:border-color .3s ease,background .3s ease;
+  }
+  .btn:hover{border-color:var(--signal);background:rgba(200,38,44,.08);}
+  .btn::after{content:"↗";}
+
+  /* ---------- filmography ---------- */
+  .film-list{border-top:1px solid var(--line);}
+  .film-row{
+    border-bottom:1px solid var(--line);
+    padding:40px 0;
+    display:grid;grid-template-columns:70px 1fr 340px;gap:40px;align-items:start;
+    cursor:pointer;
+  }
+  .film-row .fnum{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--faint);padding-top:6px;}
+  .film-row .ftitle-row{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;}
+  .film-row h4{
+    font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;
+    font-size:clamp(24px,3.2vw,38px);margin:0;transition:color .3s ease;
+  }
+  .film-row:hover h4{color:var(--signal);}
+  .film-row .fyear{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);}
+  .film-row .froles{margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:.05em;}
+  .film-row .fdesc{margin-top:16px;color:var(--muted);font-size:15px;max-width:640px;display:none;}
+  .film-row.open .fdesc{display:block;}
+  .film-row .fmedia{display:grid;gap:8px;}
+  .film-row .fmedia.two{grid-template-columns:1fr 1fr;}
+  .film-row .fmedia figure{aspect-ratio:4/3;}
+  .film-row .flinks{margin-top:18px;display:flex;gap:14px;flex-wrap:wrap;}
+  .film-row .status{
+    display:inline-block;margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--signal);border:1px solid var(--signal);
+    padding:5px 10px;
+  }
+  .selections{margin-top:18px;}
+  .selections .stitle{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;margin-bottom:8px;}
+  .selections ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .selections li{font-size:14px;color:var(--paper);position:relative;padding-left:16px;}
+  .selections li::before{content:"—";position:absolute;left:0;color:var(--signal);}
+  .fplus{
+    font-family:'Instrument Serif',serif;font-size:34px;font-style:italic;color:var(--muted);
+    justify-self:end;transition:transform .35s ease,color .3s ease;line-height:1;
+  }
+  .film-row.open .fplus{transform:rotate(45deg);color:var(--signal);}
+
+  /* ---------- contact ---------- */
+  .contact-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:80px;align-items:center;}
+  .contact-portrait img{filter:grayscale(1) contrast(1.05);}
+  .contact-list{margin-top:40px;display:flex;flex-direction:column;gap:26px;}
+  .contact-list .label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--faint);text-transform:uppercase;margin-bottom:6px;}
+  .contact-list .value{font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(22px,3vw,32px);}
+  .contact-list a.value{text-decoration:none;border-bottom:1px solid transparent;transition:border-color .3s ease,color .3s ease;}
+  .contact-list a.value:hover{border-color:var(--signal);color:var(--signal);}
+
+  footer{
+    padding:40px;max-width:1360px;margin:0 auto;display:flex;justify-content:space-between;
+    align-items:center;border-top:1px solid var(--line);flex-wrap:wrap;gap:16px;
+  }
+  footer .mono{font-size:11px;color:var(--faint);letter-spacing:.08em;}
+
+  /* ---------- lightbox ---------- */
+  .lightbox{
+    position:fixed;inset:0;background:rgba(6,6,5,.96);z-index:100;
+    display:flex;align-items:center;justify-content:center;padding:calc(var(--letterbox) + 40px) 40px;
+    opacity:0;pointer-events:none;transition:opacity .3s ease;
+  }
+  .lightbox.open{opacity:1;pointer-events:auto;}
+  .lightbox img{max-width:90vw;max-height:82vh;object-fit:contain;}
+  .lightbox-close{
+    position:absolute;top:calc(var(--letterbox) + 24px);right:36px;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;color:var(--paper);
+    background:none;border:1px solid var(--faint);padding:10px 16px;cursor:pointer;text-transform:uppercase;
+  }
+  .lightbox-close:hover{border-color:var(--signal);color:var(--signal);}
+
+  @media (max-width:900px){
+    :root{--letterbox:18px;}
+    nav.links{
+      position:fixed;top:0;right:0;bottom:0;width:78%;max-width:320px;
+      background:var(--ink);flex-direction:column;justify-content:center;gap:30px;
+      padding:40px;transform:translateX(100%);transition:transform .4s ease;
+      border-left:1px solid var(--line);z-index:45;
+    }
+    nav.links.open{transform:translateX(0);}
+    .menu-btn{display:block;}
+    section,.series{padding-left:22px;padding-right:22px;}
+    .about-grid,.contact-grid,.chaos,.suffer-block{grid-template-columns:1fr;gap:36px;}
+    .g4,.g3,.g6{grid-template-columns:repeat(2,1fr);}
+    .span2,.span3{grid-column:span 2;}
+    .quote-spread{grid-template-columns:1fr;padding-top:80px;padding-bottom:80px;}
+    .essay-strip{grid-template-columns:1fr;}
+    .film-row{grid-template-columns:1fr;gap:16px;}
+    .film-row .fplus{position:absolute;top:40px;right:22px;}
+    .film-row{position:relative;}
+    header.nav{padding:16px 22px;}
+    .hero-inner{padding:0 22px 60px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="letterbox top"></div>
+<div class="letterbox bottom"></div>
+<div class="frame-corner tl"><span class="dot"></span>AK — 2026</div>
+<div class="frame-corner tr" id="tc-frame">SCENE 00</div>
+<div class="frame-corner bl">TUNIS, TN</div>
+<div class="frame-corner br mono" id="timecode">00:00:00:00</div>
+
+<header class="nav" id="siteNav">
+  <a href="#top" class="wordmark">Anwer Kalaoui</a>
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <nav class="links" id="navLinks">
+    <a href="#about" data-nav>Who Am I</a>
+    <a href="#photography" data-nav>Photography</a>
+    <a href="#directing" data-nav>Editing &amp; Directing</a>
+    <a href="#contact" data-nav>Contact</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-media"><img src="media/image1.png" alt="Still from the music video Does Anybody Sleep, directed and edited by Anwer Kalaoui"></div>
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Filmmaker &amp; Videographer — Tunis, Tunisia</p>
+      <h1 class="hero-title">Anwer<br>Kalaoui</h1>
+      <p class="hero-sub">Cinema as a space of inquiry — where power, memory and emotion circulate between the intimate and the collective.</p>
+      <div class="scroll-cue"><span class="line"></span>Scroll</div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="scene-label"><span class="n">SCENE 00 —</span> WHO AM I</div>
+    <div class="about-grid">
+      <div class="about-portrait reveal">
+        <img src="media/image2.png" alt="Portrait of Anwer Kalaoui against a brick wall">
+        <div class="tag">Anwer Kalaoui — Tunis</div>
+      </div>
+      <div class="about-text reveal">
+        <p>I am Anwer Kalaoui, a filmmaker and videographer. My journey began in legal studies and then shifted toward cinema, where I pursued a Master's degree at the Higher School of Cinema (ESAC). This transition from law to film continues to shape my practice, sharpening my attention to the structures, rules, and invisible systems that govern our lives.</p>
+        <p>Cinema, for me, is not only a narrative tool but a space of inquiry. My fascination with cinematic language has evolved into a way of questioning reality, exploring how power, memory, and emotion circulate between the intimate and the collective. Through images and sound, I seek to create experiences that move between sensation and reflection, where cinema becomes a site of tension, perception, and thought.</p>
+        <blockquote class="pull">
+          “The cinema is not an art which films life: the cinema is something between art and life.”
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- PHOTOGRAPHY -->
+  <section id="photography" class="tight">
+    <div class="scene-label"><span class="n">SCENE 01 —</span> PHOTOGRAPHY</div>
+    <div class="intro-row reveal">
+      <h2 class="title">Featured works, shot on the street<br>and off the record.</h2>
+      <p class="lede">Six bodies of work moving between portraiture, documentary and the visual language of protest — held together by a recurring question: what shapes us before we choose anything.</p>
+    </div>
+  </section>
+
+  <!-- MELANCHOLY -->
+  <div class="series">
+    <div class="series-head reveal">
+      <h3>Melancholy</h3>
+      <div class="series-meta">Photo Story<br>Tunisia</div>
+    </div>
+    <p class="series-desc reveal">A poetic photo story about a girl haunted by a silent presence — a ghost dressed in black. Through moments of solitude, reflection and absence, she walks the edge between darkness and light. Each image captures her inner struggle between despair and hope.</p>
+    <div class="grid g4 reveal">
+      <figure class="ratio-portrait" data-full="media/image3.png"><img src="media/image3.png" loading="lazy" alt="Melancholy — figure in red beside a portrait"><span class="cap">01</span></figure>
+      <figure class="ratio-portrait" data-full="media/image4.png"><img src="media/image4.png" loading="lazy" alt="Melancholy — girl with a red circle over her face"><span class="cap">02</span></figure>
+      <figure class="ratio-portrait" data-full="media/image5.png"><img src="media/image5.png" loading="lazy" alt="Melancholy — group draped in white sheets"><span class="cap">03</span></figure>
+      <figure class="ratio-portrait" data-full="media/image6.png"><img src="media/image6.png" loading="lazy" alt="Melancholy — reaching hand gesture"><span class="cap">04</span></figure>
+    </div>
+  </div>
+
+  <!-- POWER SURROUNDS US -->
+  <div class="series">
+    <div class="series-head reveal">
+      <h3>Power Surrounds Us</h3>
+      <div class="series-meta">Ongoing Series<br>Tunisia</div>
+    </div>
+    <p class="series-desc reveal">A red circle intrudes on frame after frame — a lens flare from an unseen authority. Traced through Tunis's streets and skylines, the series follows how systems of control quietly shape everyday geometry, and the people trying to move through it.</p>
+    <div class="grid g3 reveal">
+      <figure class="ratio-square" data-full="media/image7.png"><img src="media/image7.png" loading="lazy" alt="Alleyway with a red circle motif"></figure>
+      <figure class="ratio-square" data-full="media/image8.png"><img src="media/image8.png" loading="lazy" alt="Building against the sky with a red circle motif"></figure>
+      <figure class="ratio-square" data-full="media/image9.png"><img src="media/image9.png" loading="lazy" alt="Power line pole with a red circle motif"></figure>
+      <figure class="ratio-wide span2" data-full="media/image10.png"><img src="media/image10.png" loading="lazy" alt="Figure walking beneath a red circle"></figure>
+      <figure class="ratio-square" data-full="media/image11.png"><img src="media/image11.png" loading="lazy" alt="Tree canopy through a red and blue circular frame"></figure>
+      <figure class="ratio-wide span2" data-full="media/image12.png"><img src="media/image12.png" loading="lazy" alt="Aerial view of a boat through a dark circular vignette"></figure>
+      <figure class="ratio-square" data-full="media/image13.png"><img src="media/image13.png" loading="lazy" alt="Silhouette against a blue sky among power lines"></figure>
+      <figure class="ratio-square" data-full="media/image14.png"><img src="media/image14.png" loading="lazy" alt="Eye and portrait collage, black and white"></figure>
+      <figure class="ratio-square" data-full="media/image15.png"><img src="media/image15.png" loading="lazy" alt="Black and white portrait of two figures"></figure>
+      <figure class="ratio-wide span2" data-full="media/image16.png"><img src="media/image16.png" loading="lazy" alt="Power lines over a street, black and white"></figure>
+      <figure class="ratio-portrait" data-full="media/image17.png"><img src="media/image17.png" loading="lazy" alt="Candid portrait"></figure>
+      <figure class="text-card"><p>“Power surrounds<br>wherever we go.”</p></figure>
+    </div>
+  </div>
+
+  <!-- TARKOVSKY -->
+  <div class="quote-spread reveal">
+    <figure data-full="media/image19.png"><img src="media/image19.png" loading="lazy" alt="Black and white architectural photograph"></figure>
+    <p class="qtext">“Some sort of pressure must exist; the artist exists because the world is not perfect. Art would be useless if the world were perfect, as man wouldn't look for harmony but would simply live in it. Art is born out of an ill-designed world.”<cite>— Andrei Tarkovsky</cite></p>
+    <div class="grid" style="grid-template-columns:1fr;gap:14px;">
+      <figure class="ratio-wide" data-full="media/image20.png"><img src="media/image20.png" loading="lazy" alt="Black and white photograph of a theatre interior"></figure>
+      <figure class="ratio-wide" data-full="media/image21.png"><img src="media/image21.png" loading="lazy" alt="Black and white photograph of a building facade"></figure>
+    </div>
+  </div>
+
+  <!-- TO LIVE IS TO SUFFER -->
+  <div class="suffer-block reveal">
+    <p class="qtext">To live is to suffer.<br>To survive is to find<br>some meaning in<br>the suffering.</p>
+    <figure data-full="media/image22.png"><img src="media/image22.png" loading="lazy" alt="Grid of black and white portraits"></figure>
+  </div>
+
+  <!-- TUNISIA BEJA -->
+  <div class="series">
+    <div class="essay-head reveal">
+      <div class="series-head" style="margin-bottom:16px;">
+        <h3>Tunisia, Béja</h3>
+        <div class="series-meta">Photo Essay<br>2020</div>
+      </div>
+    </div>
+    <div class="essay-strip reveal">
+      <figure class="ratio-wide" data-full="media/image23.png"><img src="media/image23.png" loading="lazy" alt="Wheat field under a cloudy sky, Béja, Tunisia"></figure>
+      <figure class="ratio-wide" data-full="media/image24.png"><img src="media/image24.png" loading="lazy" alt="Farmland with a tractor in the distance, Béja, Tunisia"></figure>
+    </div>
+  </div>
+
+  <!-- CHAOS ART -->
+  <div class="series">
+    <div class="chaos reveal">
+      <div>
+        <div class="scene-label" style="margin-bottom:16px;"><span class="n">01.6 —</span> PLATFORM</div>
+        <h3 style="font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:clamp(28px,3.6vw,44px);margin:0 0 18px;">Chaos Art</h3>
+        <p class="series-desc" style="margin-bottom:0;">A platform where I share photos and videos capturing ideas, emotions, and moments from everyday life. Without a predefined strategy, I post a variety of content: landscapes, protests, and other inspiring moments.</p>
+        <a class="btn" href="https://www.instagram.com/chaos_production.0?igsh=dXdpOW8xcjF3cjB2" target="_blank" rel="noopener">View the platform</a>
+      </div>
+      <div class="chaos-gallery">
+        <figure data-full="media/image25.png"><img src="media/image25.png" loading="lazy" alt="Weathered building with graffiti"></figure>
+        <figure data-full="media/image26.png"><img src="media/image26.png" loading="lazy" alt="Protest sign reading Liberez Georges Abdallah"></figure>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- EDITING & DIRECTING -->
+  <section id="directing" class="tight">
+    <div class="scene-label"><span class="n">SCENE 02 —</span> EDITING &amp; DIRECTING</div>
+    <div class="intro-row reveal">
+      <h2 class="title">Selected films, music videos<br>&amp; documentary work.</h2>
+      <p class="lede">From lockdown music videos to a festival-selected documentary essay — editing and directing work spanning 2020 to 2026.</p>
+    </div>
+  </section>
+
+  <section class="tight" style="padding-top:0;">
+    <div class="film-list" id="filmList">
+
+      <div class="film-row" data-row>
+        <div class="fnum mono">01</div>
+        <div>
+          <div class="ftitle-row"><h4>HOLm — Video Editing</h4><span class="fyear mono">2020</span></div>
+          <div class="froles">Editor</div>
+          <div class="fdesc">
+            <p>Created during the lockdown period, this music video features a minimalist and introspective aesthetic, capturing the unique atmosphere of that time.</p>
+            <div class="fmedia two"><figure data-full="media/image27.png"><img src="media/image27.png" loading="lazy" alt="Black and white still from HOLm music video"></figure></div>
+            <div class="flinks"><a class="btn" href="https://www.facebook.com/watch/?v=628288011362869&rdid=LxSZOIgApIXsrhFN" target="_blank" rel="noopener">Watch</a></div>
+          </div>
+        </div>
+        <div class="fplus">+</div>
+      </div>
+
+      <div class="film-row" data-row>
+        <div class="fnum mono">02</div>
+        <div>
+          <div class="ftitle-row"><h4>Emel Mathlouthi — Does Anybody Sleep</h4><span class="fyear mono">2021</span></div>
+          <div class="froles">Selection &amp; editing of sequences · Narrative rhythm</div>
+          <div class="fdesc">
+            <p>This music video addresses the tragedy of the Beirut port explosion. Through a montage that alternates between archival footage and symbolic visuals, it conveys both the pain and the resilience of a people facing an unprecedented catastrophe.</p>
+            <div class="fmedia two"><figure data-full="media/image28.png"><img src="media/image28.png" loading="lazy" alt="Still from Does Anybody Sleep music video"></figure></div>
+            <div class="flinks"><a class="btn" href="https://www.facebook.com/watch/?v=628147471495850&rdid=hVSWaNL4ZS9mPgsw" target="_blank" rel="noopener">Watch</a></div>
+          </div>
+        </div>
+        <div class="fplus">+</div>
+      </div>
+
+      <div class="film-row" data-row>
+        <div class="fnum mono">03</div>
+        <div>
+          <div class="ftitle-row"><h4>Philosophy in Public Space</h4><span class="fyear mono">2021</span></div>
+          <div class="froles">Idea: Khadija Masaoudi · Directed by Anwer Kalaoui</div>
+          <div class="fdesc">
+            <p>Directed in 2021 as part of the Think Art festival, this documentary delves into philosophical initiatives led by passionate young individuals. It showcases their efforts to bring philosophy into public spaces such as universities, cultural centers, and open squares — highlighting the importance of collective reflection and the role of philosophy in public life.</p>
+            <div class="fmedia" style="grid-template-columns:repeat(3,1fr);">
+              <figure data-full="media/image28.png"><img src="media/image29.png" loading="lazy" alt="Still from Philosophy in Public Space, 1"></figure>
+              <figure data-full="media/image29.png"><img src="media/image30.png" loading="lazy" alt="Still from Philosophy in Public Space, 2"></figure>
+              <figure data-full="media/image30.png"><img src="media/image31.png" loading="lazy" alt="Still from Philosophy in Public Space, 3"></figure>
+            </div>
+          </div>
+        </div>
+        <div class="fplus">+</div>
+      </div>
+
+      <div class="film-row" data-row>
+      <div class="fnum mono">04</div>
+      <div>
+        <div class="ftitle-row"><h4>Amor Fati</h4><span class="fyear mono">2024</span></div>
+        <div class="froles">Et sous l'ombre de ces citadelles, on se révolte</div>
+        <div class="fdesc">
+          <p>This track uses distortion as language. It depicts the clash between the individual and power, capturing suffocation, revolt, and the erosion of humanity within industrial modernity.</p>
+          <div class="fmedia" style="grid-template-columns:repeat(2,1fr);">
+            <figure style="grid-column:1 / -1;" data-full="media/image32.png"><img src="media/image32.png" loading="lazy" style="width:100%;height:auto;aspect-ratio:auto;object-fit:contain;" alt="Amor Fati still, 1"></figure>
+            <figure data-full="media/image33.png"><img src="media/image33.png" loading="lazy" alt="Amor Fati still, 2"></figure>
+            <figure data-full="media/image34.png"><img src="media/image34.png" loading="lazy" alt="Amor Fati still, 3"></figure>
+            <figure data-full="media/image35.png"><img src="media/image35.png" loading="lazy" alt="Amor Fati still, 4"></figure>
+            <figure data-full="media/image36.png"><img src="media/image36.png" loading="lazy" alt="Amor Fati still, 5"></figure>
+          </div>
+          <div class="flinks"><a class="btn" href="https://www.youtube.com/watch?v=YCHI_Kd2Bts" target="_blank" rel="noopener">Watch</a></div>
+        </div>
+      </div>
+      <div class="fplus">+</div>
+    </div>
+
+      <div class="film-row" data-row>
+        <div class="fnum mono">05</div>
+        <div>
+          <div class="ftitle-row"><h4>Ayilas x Yami — FK Them Up</h4><span class="fyear mono">2025</span></div>
+          <div class="froles">Director &amp; Editor</div>
+          <div class="fdesc">
+            <p>The clip, shot with a GoPro, adopts a raw and immediate aesthetic, true to the spirit of underground rap. Tight, moving shots heighten the track's energy and sense of urgency.</p>
+            <div class="fmedia two">
+              <figure data-full="media/image36.png"><img src="media/image37.png" loading="lazy" alt="FK Them Up still, 1"></figure>
+              <figure data-full="media/image37.png"><img src="media/image38.png" loading="lazy" alt="FK Them Up still, 2"></figure>
+            </div>
+            <div class="flinks"><a class="btn" href="https://www.youtube.com/watch?v=whXA_ZSg5yk" target="_blank" rel="noopener">Watch</a></div>
+          </div>
+        </div>
+        <div class="fplus">+</div>
+      </div>
+
+      <div class="film-row" data-row>
+      <div class="fnum mono">06</div>
+      <div>
+        <div class="ftitle-row"><h4>Effervescence</h4><span class="fyear mono">2025</span></div>
+        <div class="froles">Documentary Essay · Writer, Director &amp; Editor</div>
+        <div class="fdesc">
+          <p>Effervescence is an experimental documentary that explores the existential journey of a young man born into a life he never chose — his name, family, language and social background all determined before he had the chance to decide for himself. Beginning with an intimate family story, the film gradually unfolds into a reflection on identity, freedom and memory. Through observational footage, poetic voice-over and a fragmented narrative, it blurs the line between documentary and cinematic essay, transforming everyday moments into a space for existential inquiry.</p>
+          <div class="fmedia" style="grid-template-columns:1fr;">
+            <figure data-full="media/image38.png"><img src="media/image39.png" loading="lazy" alt="Effervescence title card"></figure>
+          </div>
+          <div class="selections">
+            <div class="stitle">Official Selections</div>
+            <ul>
+              <li>FestifAnn</li>
+              <li>Les Rencontres Cinématographiques de Bizerte</li>
+              <li>Festival Apollon</li>
+            </ul>
+          </div>
+          <div class="flinks"><a class="btn" href="https://drive.google.com/file/d/1cCtY2JpA4DDyqJX0ktP_Ugk9KKy43ELP/view?usp=sharing" target="_blank" rel="noopener">Watch</a></div>
+        </div>
+      </div>
+      <div class="fplus">+</div>
+    </div>
+
+    <div class="film-row" data-row>
+      <div class="fnum mono">07</div>
+      <div>
+        <div class="ftitle-row"><h4>The Protocol</h4><span class="fyear mono">2026</span></div>
+        <div class="froles">Fiction · Writer &amp; Director</div>
+        <div class="fdesc">
+          <p>A film about execution, and about life in the Underworld — the world of those left forgotten in the depths. </p>
+          <div class="fmedia" style="grid-template-columns:repeat(2,1fr);">
+            <figure style="grid-column:1 / -1;" data-full="media/image40.png"><img src="media/image40.png" loading="lazy" alt="The Protocol still, 1"></figure>
+            <figure style="grid-column:1 / -1;" data-full="media/image41.png"><img src="media/image41.png" loading="lazy" alt="The Protocol still, 2"></figure>
+            <figure data-full="media/image42.png"><img src="media/image42.png" loading="lazy" alt="The Protocol still, 3"></figure>
+            <figure data-full="media/image43.png"><img src="media/image43.png" loading="lazy" alt="The Protocol still, 4"></figure>
+          </div>
+          <span class="status">In Production</span>
+        </div>
+      </div>
+      <div class="fplus">+</div>
+    </div>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="scene-label"><span class="n">SCENE 03 —</span> CONTACT</div>
+    <div class="contact-grid">
+      <div class="contact-portrait reveal">
+        <img src="media/image44.png" alt="Anwer Kalaoui holding a camera">
+      </div>
+      <div class="reveal">
+        <h2 class="title">Let's work<br>on something.</h2>
+        <p class="lede">Available for direction, editing and cinematography — in Tunisia and abroad.</p>
+        <div class="contact-list">
+          <div>
+            <div class="label">Address</div>
+            <div class="value">Tunis, Tunisia</div>
+          </div>
+          <div>
+            <div class="label">Phone</div>
+            <a class="value" href="tel:+21658028348">+216 58 028 348</a>
+          </div>
+          <div>
+            <div class="label">Email</div>
+            <a class="value" href="mailto:anwerk709@gmail.com">anwerk709@gmail.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="mono">© 2026 ANWER KALAOUI</span>
+    <span class="mono">FILMMAKER &amp; VIDEOGRAPHER — TUNIS</span>
+  </footer>
+
+</main>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">Close ✕</button>
+  <img src="" alt="" id="lightboxImg">
+</div>
+
+<script>
+  // nav scroll behaviour
+  const nav = document.getElementById('siteNav');
+  let lastY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 40);
+    if (y > lastY && y > 200) nav.classList.add('hide');
+    else nav.classList.remove('hide');
+    lastY = y;
+  }, { passive: true });
+
+  // mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // scroll-spy active link + frame label + timecode
+  const sections = ['about','photography','directing','contact'].map(id => document.getElementById(id));
+  const navA = document.querySelectorAll('nav.links a[data-nav]');
+  const frameLabel = document.getElementById('tc-frame');
+  const labels = {about:'SCENE 00', photography:'SCENE 01', directing:'SCENE 02', contact:'SCENE 03'};
+
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navA.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+        frameLabel.textContent = labels[e.target.id];
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  sections.forEach(s => spy.observe(s));
+
+  // fake timecode driven by scroll progress
+  const tc = document.getElementById('timecode');
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function updateTimecode(){
+    const doc = document.documentElement;
+    const progress = doc.scrollTop / (doc.scrollHeight - doc.clientHeight || 1);
+    const totalFrames = Math.floor(progress * (24*60*3)); // fictional 3-minute reel at 24fps
+    const ff = totalFrames % 24;
+    const totalSeconds = Math.floor(totalFrames / 24);
+    const ss = totalSeconds % 60;
+    const mm = Math.floor(totalSeconds / 60) % 60;
+    const hh = Math.floor(totalSeconds / 3600);
+    tc.textContent = `${pad(hh)}:${pad(mm)}:${pad(ss)}:${pad(ff)}`;
+  }
+  document.addEventListener('scroll', updateTimecode, { passive: true });
+  updateTimecode();
+
+  // reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const ro = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => ro.observe(el));
+
+  // filmography accordion
+  document.querySelectorAll('[data-row]').forEach(row => {
+    row.addEventListener('click', (ev) => {
+      if (ev.target.closest('a')) return;
+      const wasOpen = row.classList.contains('open');
+      document.querySelectorAll('[data-row]').forEach(r => r.classList.remove('open'));
+      if (!wasOpen) row.classList.add('open');
+    });
+  });
+  document.querySelector('[data-row]').classList.add('open');
+
+  // lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  document.querySelectorAll('figure[data-full]').forEach(fig => {
+    fig.addEventListener('click', () => {
+      lightboxImg.src = fig.getAttribute('data-full');
+      lightboxImg.alt = fig.querySelector('img')?.alt || '';
+      lightbox.classList.add('open');
+    });
+  });
+  document.getElementById('lightboxClose').addEventListener('click', () => lightbox.classList.remove('open'));
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
+
+  // respect reduced motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>
